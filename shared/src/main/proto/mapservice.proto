@@ -1,0 +1,178 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package eventservice;
+option java_package = "at.tugraz";
+option java_multiple_files = true;
+option java_outer_classname = "EventServiceProto";
+option java_generic_services = true;
+
+// Idea for Event and EventService taken from TC tutorial :)
+
+message CrsProperties {
+  string name = 1;
+}
+
+message Crs {
+  string type = 1;
+  CrsProperties properties = 2;
+}
+
+message Roads {
+  double bboxTlX = 1;
+  double bboxTlY = 2;
+  double bboxBrX = 3;
+  double bboxBrY = 4;
+  double pointX = 5;
+  double pointY = 6;
+  string roadType = 7;
+  int64 take = 8;
+  int64 skip = 9;
+  string coordinateType = 10;
+}
+
+//for the all amenity message
+message Amenity
+{
+  double bboxTlX = 1;
+  double bboxTlY = 2;
+  double bboxBrX = 3;
+  double bboxBrY = 4;
+  double pointX = 5;
+  double pointY = 6;
+  string  pointD = 7;
+  int64  take = 8;
+  string  amenityType = 9;
+  string coordinateType = 10;
+  int32 skip = 11;
+
+}
+message Polygon {
+  repeated Coordinate coordinates = 1; // A list of coordinates to represent a single polygon
+}
+
+message MultiPolygon {
+  repeated Polygon polygons = 1; // A list of polygons
+}
+
+message Geom {
+  string type = 1;
+  repeated double coordinates = 2;
+  repeated MultiPolygon multiPolygons = 3;
+  Crs crs = 4;
+}
+
+message MappingRequest {
+  repeated double bounds = 1; // [minLat, minLon, maxLat, maxLon]
+  repeated string layers = 2;
+  int32 x = 3;
+  int32 y = 4;
+  int32 z = 5;
+}
+
+//for roadsID
+message ChildIds {
+  repeated int64 childID = 1;
+}
+//for RoadsID
+message Paging{
+  int64 skip = 1;
+  int64 take = 2;
+  int64 total = 3;
+}
+
+message Entry {
+  string name = 1;
+  int64 id = 2;
+  Geom geom = 3;
+  map<string, string> tags = 4;
+  string type = 5;
+  repeated int64 child_ids = 6;
+}
+
+message Event {
+  int64 id = 1;
+  string name = 2;
+  map<string, string> tags = 3;
+  string type = 4;
+  Geom geom = 5;
+  ChildIds childById = 6;
+  Crs crs = 7;
+  Paging paging = 8;
+  repeated Entry entries = 9;
+  repeated RoadSegment primaryRoads = 10;
+  repeated RoadSegment secondaryRoads = 11;
+  repeated RoadSegment roadRoads = 12;
+  repeated RoadSegment motorwayRoads = 13;
+  repeated RoadSegment trunkRoads = 14;
+  repeated RoadSegment forestRoads = 15;
+  repeated RoadSegment residentialRoads = 16;
+  repeated RoadSegment vineyardRoads = 17;
+  repeated RoadSegment grassRoads = 18;
+  repeated RoadSegment railwayRoads = 19;
+  repeated RoadSegment waterRoads = 20;
+}
+
+message Dictionary {
+  map<string, string> pairs = 1;
+}
+
+message Events {
+  repeated Event events = 1;
+}
+
+message EventCreation {
+  string  message = 1;
+}
+
+message EventById {
+  int64 id = 1;
+}
+
+//for roads
+message RoadById{
+  int64 id = 1;
+}
+
+message OSMFileRequest {}
+
+message OSMFileResponse {
+  string osmFile = 1;
+}
+
+message Coordinate {
+  double longitude = 1;
+  double latitude = 2;
+}
+
+message Amenities {
+  repeated double coordinates = 1;
+  string name = 2;
+}
+// added for mapping
+message RoadSegment {
+  repeated Coordinate coordinates = 1;
+}
+service EventService {
+  rpc events(google.protobuf.Empty) returns (Events){};
+  rpc eventById(EventById) returns (Event){};
+  rpc logEvent(EventCreation) returns (Event){};
+  rpc getOSMFile(OSMFileRequest) returns (OSMFileResponse) {};
+  rpc GetData(RequestType) returns (ResponseType);
+  //for the roads
+  rpc roadById(RoadById) returns (Event){};
+  rpc GetRoads(Roads) returns (Event);
+
+  //amenity full message
+  rpc GetAmenity(Amenity) returns (Event);
+  // this is for mapping
+  rpc GetMapping(MappingRequest) returns (Event);
+
+}
+
+message RequestType {
+  int64 id = 1;
+}
+
+message ResponseType {
+  string responseType = 1;
+}
