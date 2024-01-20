@@ -10,8 +10,8 @@ This project was developed as part of the Objektorientierte Programmierung 2 at 
 
 # Overview
 
-Collaborated in a team at the university to develop a *geospatial data processing application*, gaining a solid understanding of Spring Boot and client-server communication.
-Key functionalities include *real-time data parsing, spatial data indexing, and the integration of various geospatial databases*, enabling users to perform complex geospatial queries and visualizations. The application's architecture facilitates easy scalability and maintenance, making it an ideal platform for developers and researchers working with geospatial technology. The project provided a hands-on experience with the basics of geospatial data processing, demonstrating the practical application of theoretical concepts in a real-world-like scenario.
+Collaborated in a team at the university to develop a **geospatial data processing application**, gaining a solid understanding of Spring Boot and client-server communication.
+Key functionalities include **real-time data parsing, spatial data indexing, and the integration of various geospatial databases**, enabling users to perform complex geospatial queries and visualizations. The application's architecture facilitates easy scalability and maintenance, making it an ideal platform for developers and researchers working with geospatial technology. The project provided a hands-on experience with the basics of geospatial data processing, demonstrating the practical application of theoretical concepts in a real-world-like scenario.
 
 
 # Framework
